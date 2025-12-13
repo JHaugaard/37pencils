@@ -1,0 +1,171 @@
+{
+  "document_type": "deployment-strategy",
+  "version": "1.0",
+  "created": "2025-12-13",
+  "project": "37-pencils",
+  "mode": "LEARNING",
+
+  "rationale": "Cloudflare Pages is the ideal match for a static Astro site: zero cost, automatic deploys from GitHub, global CDN, and the domain DNS is already on Cloudflare. Development happens locally with standard Astro dev server.",
+
+  "decisions": [
+    {
+      "id": "DA-001",
+      "category": "hosting",
+      "decision": "Cloudflare Pages",
+      "status": "LOCKED",
+      "rationale": "Purpose-built for static sites, free tier covers all needs, DNS already on Cloudflare eliminates configuration"
+    },
+    {
+      "id": "DA-002",
+      "category": "development-environment",
+      "decision": "Localhost",
+      "status": "LOCKED",
+      "rationale": "Standard local development with Astro dev server, deploy to production when ready"
+    },
+    {
+      "id": "DA-003",
+      "category": "cdn",
+      "decision": "Cloudflare (included)",
+      "status": "LOCKED",
+      "rationale": "Cloudflare Pages includes global CDN by default"
+    },
+    {
+      "id": "DA-004",
+      "category": "ssl",
+      "decision": "Cloudflare (automatic)",
+      "status": "LOCKED",
+      "rationale": "Automatic HTTPS with Cloudflare-managed certificates"
+    },
+    {
+      "id": "DA-005",
+      "category": "ci-cd",
+      "decision": "Cloudflare Pages built-in",
+      "status": "LOCKED",
+      "rationale": "Push to GitHub triggers automatic build and deploy - no separate CI/CD pipeline needed"
+    }
+  ],
+
+  "development_environment": {
+    "location": "localhost",
+    "deployment_target": "Cloudflare Pages",
+    "workflow_type": "local-then-deploy",
+    "rationale": "Standard web development workflow: develop locally, push to GitHub, automatic production deploy"
+  },
+
+  "hosting": {
+    "type": "cloudflare-pages",
+    "provider": "Cloudflare",
+    "region": "Global edge network",
+    "container": "platform-managed",
+    "database_hosting": "None (static site)",
+    "file_storage": "Git repository + Cloudflare edge cache",
+    "cdn": "Cloudflare (included)",
+    "ssl": "Cloudflare (automatic)"
+  },
+
+  "deployment_workflow": {
+    "initial_setup": [
+      "Create GitHub repository for 37-pencils",
+      "Connect Cloudflare Pages to GitHub repository",
+      "Configure build settings: Framework preset 'Astro', build command 'npm run build', output directory 'dist'",
+      "Add custom domain 37pencils.net in Cloudflare Pages settings",
+      "DNS records auto-configured (domain already on Cloudflare)"
+    ],
+    "regular_deploy": [
+      "git add . && git commit -m 'description'",
+      "git push origin main",
+      "Cloudflare Pages automatically builds and deploys (typically <2 minutes)"
+    ],
+    "rollback": [
+      "Cloudflare Pages dashboard → Deployments → Select previous deployment → 'Rollback to this deploy'",
+      "Or: git revert and push to trigger new build"
+    ]
+  },
+
+  "cost": {
+    "setup": "$0",
+    "monthly": "$0 (free tier: 500 builds/month, unlimited bandwidth, unlimited requests)",
+    "scaling_notes": "Free tier is generous. Pro tier ($20/month) only needed for: >500 builds/month, web analytics, or additional projects beyond limits."
+  },
+
+  "scaling_path": [
+    {
+      "phase": "current",
+      "description": "Cloudflare Pages free tier with single custom domain",
+      "trigger_for_next": "Exceeding 500 builds/month (unlikely with manual content creation)"
+    },
+    {
+      "phase": "phase_1",
+      "description": "Cloudflare Pages Pro if build limits reached",
+      "trigger_for_next": "Need for advanced features like A/B testing, more analytics"
+    }
+  ],
+
+  "maintenance": {
+    "daily": [],
+    "weekly": [],
+    "monthly": [
+      "Review Cloudflare Pages analytics (optional)",
+      "Check for Astro framework updates"
+    ]
+  },
+
+  "backup_strategy": {
+    "content": "Git repository is the source of truth - already versioned and backed up on GitHub",
+    "config": "All configuration in repository (astro.config.mjs, etc.)",
+    "assets": "Static assets in repository, cached at edge"
+  },
+
+  "security": {
+    "implemented": [
+      "Automatic HTTPS (Cloudflare-managed SSL)",
+      "DDoS protection (Cloudflare included)",
+      "Edge caching reduces origin exposure"
+    ],
+    "recommended": [
+      "Enable Cloudflare WAF rules if needed (free tier includes basic rules)"
+    ]
+  },
+
+  "alternatives_considered": [
+    {
+      "name": "VPS Docker (vps1)",
+      "pros": [
+        "Learn Docker and Caddy for serving static files",
+        "Consistent with homelab skills",
+        "Full control over serving configuration"
+      ],
+      "cons": [
+        "More setup and maintenance",
+        "No automatic deploys without additional CI/CD",
+        "Single region vs global CDN"
+      ],
+      "ruled_out_reason": "Additional complexity without clear benefit for static site; Cloudflare Pages is purpose-built for this use case"
+    },
+    {
+      "name": "Fly.io",
+      "pros": [
+        "Global edge deployment",
+        "Could add dynamic features later"
+      ],
+      "cons": [
+        "Requires Dockerfile for static site",
+        "More complex than needed",
+        "Costs more than free Cloudflare Pages"
+      ],
+      "ruled_out_reason": "Overkill for static site with no dynamic features planned"
+    }
+  ],
+
+  "learning_opportunities": [
+    "Cloudflare Pages deployment workflow",
+    "JAMstack architecture in practice",
+    "Git-based content publishing workflow",
+    "Edge CDN behavior and caching",
+    "Custom domain configuration with Cloudflare"
+  ],
+
+  "termination_point": "deploy-guide",
+
+  "handoff_to": ["project-spinup", "deploy-guide"]
+}

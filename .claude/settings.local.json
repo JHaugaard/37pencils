@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(project-brief-writer)",
+      "Bash(mkdir:*)",
+      "Skill(solution-architect)",
+      "Bash(docker mcp:*)",
+      "Skill(tech-stack-advisor)",
+      "Skill(deployment-advisor)"
+    ]
+  }
+}

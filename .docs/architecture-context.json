@@ -1,0 +1,138 @@
+{
+  "document_type": "architecture-context",
+  "project": "37-pencils",
+  "mode": "LEARNING",
+  "created_by": "solution-architect",
+  "created": "2025-12-13",
+
+  "project_context": {
+    "type": "greenfield",
+    "rationale": "New personal digital garden with no existing system to extend or migrate from",
+    "existing_system": null
+  },
+
+  "platform": {
+    "primary": "web",
+    "secondary": [],
+    "rationale": "Public website serving interconnected content. Mobile reading experience matters; authoring is desktop-only.",
+    "native_capabilities": [],
+    "offline_requirement": "none"
+  },
+
+  "rendering_strategy": {
+    "approach": "static-site-generation",
+    "rationale": "Low posting frequency (brain-constrained, slow-burn) makes rebuild-on-change acceptable. SSG eliminates runtime server requirements, simplifies hosting, and aligns with learning goals. No dynamic features identified that require SSR.",
+    "implications": [
+      "Content changes require build + deploy cycle",
+      "Backlinks computed at build time",
+      "Search index generated at build time",
+      "Hosting can be static (Cloudflare Pages) or VPS-served static files"
+    ]
+  },
+
+  "content_architecture": {
+    "storage": "local-markdown-in-git",
+    "rationale": "Git repo serves as content database, version history, backup, and CI/CD trigger. No separate CMS or database needed for content.",
+    "authoring_workflow": "Write locally in any editor → git commit → git push → automated build/deploy",
+    "linking_convention": "[[wikilinks]]",
+    "content_volume": {
+      "initial": "zero (starting from first post)",
+      "growth_rate": "slow (constrained by author availability)",
+      "expected_scale": "under 1000 posts for foreseeable future"
+    }
+  },
+
+  "integrations": {
+    "profile": "standalone",
+    "required": [],
+    "optional": [
+      {
+        "system": "Semantic search backend",
+        "type": "api",
+        "protocol": "unknown",
+        "constraint_level": "soft",
+        "notes": "Both brief reviewers flagged as complexity risk. Could use Ollama embeddings on homelab, or defer to fuzzy search for V1. Tech-stack-advisor should evaluate."
+      }
+    ]
+  },
+
+  "scale": {
+    "profile": "personal",
+    "concurrent_users": "1-100",
+    "data_volume": "minimal",
+    "availability": "best-effort",
+    "rationale": "Single author, public readers. No commercial SLA. Personal project tolerates occasional downtime."
+  },
+
+  "team": {
+    "size": "solo-with-ai",
+    "primary_skills": ["general web development"],
+    "learning_goals": [
+      "Digital garden architecture and philosophy",
+      "Bidirectional linking implementation",
+      "Semantic search integration",
+      "Modern web development practices",
+      "AI-assisted development workflows",
+      "Static site generation ecosystem"
+    ],
+    "avoid": []
+  },
+
+  "constraints": {
+    "hard": [
+      {
+        "type": "vendor",
+        "description": "Domain 37pencils.net with DNS on Cloudflare",
+        "impact": "DNS configuration available; no platform lock-in implied"
+      }
+    ],
+    "soft": []
+  },
+
+  "architecture_implications": {
+    "for_tech_stack": [
+      "SSG framework needed with strong markdown and wikilink support",
+      "Build-time backlink extraction required",
+      "Search solution should work at build time (Pagefind, Fuse.js) or evaluate embeddings approach",
+      "Image optimization pipeline needed for photography content",
+      "Learning-friendly ecosystem preferred (good docs, active community)"
+    ],
+    "for_deployment": [
+      "Static hosting sufficient (Cloudflare Pages is viable)",
+      "VPS deployment also viable if preferred for learning or control",
+      "No database required for core functionality",
+      "CI/CD pipeline: GitHub → build → deploy",
+      "Semantic search backend (if chosen) may require separate service on VPS"
+    ]
+  },
+
+  "decisions_locked": [
+    {
+      "id": "SA-001",
+      "decision": "Static Site Generation approach",
+      "rationale": "Low content velocity, no dynamic features needed, simpler architecture, learning opportunity",
+      "status": "LOCKED"
+    },
+    {
+      "id": "SA-002",
+      "decision": "Local Markdown files in Git as content source",
+      "rationale": "Git provides versioning, backup, CI/CD trigger, and authoring flexibility with any editor",
+      "status": "LOCKED"
+    },
+    {
+      "id": "SA-003",
+      "decision": "[[wikilink]] syntax for bidirectional links",
+      "rationale": "De facto standard in digital garden ecosystem, broad tooling support",
+      "status": "LOCKED"
+    }
+  ],
+
+  "open_questions": [
+    "Semantic search vs fuzzy search for V1 (tech-stack-advisor to evaluate trade-offs)",
+    "Specific SSG framework selection (tech-stack-advisor domain)",
+    "Hosting target: Cloudflare Pages vs VPS (deployment-advisor domain)",
+    "Image storage and optimization approach (tech-stack-advisor domain)"
+  ],
+
+  "handoff_to": ["tech-stack-advisor", "deployment-advisor"]
+}

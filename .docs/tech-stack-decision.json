@@ -1,0 +1,165 @@
+{
+  "document_type": "tech-stack-decision",
+  "version": "1.0",
+  "created": "2025-12-13",
+  "project": "37-pencils",
+  "mode": "LEARNING",
+
+  "rationale": "Astro is purpose-built for content-rich websites with its content collections, zero-JS-by-default philosophy, and thriving digital garden ecosystem. It provides the right balance of modern tooling and simplicity for a learning-focused project while producing fast, optimized output.",
+
+  "decisions": [
+    {
+      "id": "TSA-001",
+      "category": "frontend",
+      "decision": "Astro 4.x",
+      "status": "LOCKED",
+      "rationale": "Content-first SSG with islands architecture, excellent Markdown support, and active digital garden community"
+    },
+    {
+      "id": "TSA-002",
+      "category": "styling",
+      "decision": "Tailwind CSS 3.x",
+      "status": "LOCKED",
+      "rationale": "Utility-first CSS enables brutalism-lite aesthetic without fighting framework conventions"
+    },
+    {
+      "id": "TSA-003",
+      "category": "content",
+      "decision": "Markdown + MDX with Astro Content Collections",
+      "status": "LOCKED",
+      "rationale": "Type-safe content collections provide structured access to frontmatter for backlinks, seedling states, and metadata queries"
+    },
+    {
+      "id": "TSA-004",
+      "category": "search",
+      "decision": "Pagefind",
+      "status": "LOCKED",
+      "rationale": "Build-time search index with ~4KB client JS, zero runtime dependencies, excellent fuzzy search for content sites under 1000 posts"
+    },
+    {
+      "id": "TSA-005",
+      "category": "backlinks",
+      "decision": "Custom Remark plugin + remark-wiki-link",
+      "status": "LOCKED",
+      "rationale": "Remark ecosystem is the standard for Markdown processing; skills transfer to any Markdown-based tooling"
+    },
+    {
+      "id": "TSA-006",
+      "category": "image-optimization",
+      "decision": "astro:assets (built-in)",
+      "status": "LOCKED",
+      "rationale": "Native image optimization with responsive images, WebP conversion, and lazy loading without additional dependencies"
+    },
+    {
+      "id": "TSA-007",
+      "category": "build",
+      "decision": "Vite",
+      "status": "LOCKED",
+      "rationale": "Industry-standard build tool, comes with Astro, fast HMR during development"
+    }
+  ],
+
+  "stack_summary": {
+    "frontend": "Astro 4.x",
+    "backend": "None (static site generation)",
+    "database": "None (Git-based content)",
+    "auth": "None (public site)",
+    "styling": "Tailwind CSS 3.x",
+    "storage": "Git repository for content, static assets in repo",
+    "search": "Pagefind (build-time index)",
+    "testing": "Playwright (E2E), Vitest (unit if needed)"
+  },
+
+  "stack_philosophy": "balanced",
+
+  "alternatives_considered": [
+    {
+      "name": "Eleventy (11ty)",
+      "pros": [
+        "More minimal, closer to raw HTML",
+        "Large digital garden community with many public examples",
+        "Maximum flexibility and control"
+      ],
+      "cons": [
+        "Less opinionated about component architecture",
+        "Image optimization requires manual setup",
+        "No built-in view transitions or modern SPA-like features"
+      ],
+      "ruled_out_reason": "Less modern DX and requires more manual setup for features Astro provides out of the box"
+    },
+    {
+      "name": "SvelteKit (Static Mode)",
+      "pros": [
+        "Excellent developer experience",
+        "Learn rising framework with devoted following",
+        "Easy to add dynamic features later"
+      ],
+      "cons": [
+        "App-first rather than content-first philosophy",
+        "Svelte-specific patterns less transferable than Remark ecosystem",
+        "Content management requires more setup"
+      ],
+      "ruled_out_reason": "Content-first philosophy of Astro better matches digital garden use case; Remark skills more portable"
+    }
+  ],
+
+  "ruled_out": [
+    {
+      "name": "Next.js / Gatsby",
+      "reason": "Overkill for content site with no dynamic features; unnecessary runtime complexity for SSG-only needs"
+    },
+    {
+      "name": "Hugo",
+      "reason": "Go templates have steep learning curve with less transferable knowledge; smaller plugin ecosystem"
+    },
+    {
+      "name": "WordPress / Ghost",
+      "reason": "Server-side requirement conflicts with locked SSG decision; template approach doesn't align with building from primitives"
+    }
+  ],
+
+  "learning_opportunities": {
+    "frontend_skills": [
+      "Astro component syntax and content collections",
+      "View transitions API",
+      "Tailwind CSS utility-first patterns",
+      "Responsive image handling"
+    ],
+    "backend_skills": [
+      "Remark/Rehype plugin development",
+      "Build-time data processing",
+      "Static asset optimization pipelines"
+    ],
+    "architecture_concepts": [
+      "Islands architecture (partial hydration)",
+      "File-based routing",
+      "Content modeling with frontmatter schemas",
+      "Git-based content workflows"
+    ],
+    "transferable_skills": [
+      "MDX and Markdown tooling (used across many frameworks)",
+      "Vite build system (industry standard)",
+      "Remark/Rehype ecosystem (portable to any Markdown-based tool)"
+    ]
+  },
+
+  "deferred_features": {
+    "semantic_search": {
+      "status": "deferred_to_post_v1",
+      "rationale": "Pagefind provides excellent search UX for <1000 posts. Semantic search can be layered later as 'related posts' feature rather than primary search.",
+      "future_approach": "Ollama embeddings via homelab, surface as 'conceptually related' sidebar"
+    },
+    "scrollytelling": {
+      "status": "deferred_to_post_v1",
+      "rationale": "Per brief, requires investigation to determine fit"
+    },
+    "automation_windows": {
+      "status": "deferred_to_post_v1",
+      "rationale": "RSS aggregation and activity feeds explicitly out of scope for v1"
+    }
+  },
+
+  "user_stated_constraints": "Domain 37pencils.net with DNS on Cloudflare",
+
+  "handoff_to": ["deployment-advisor", "project-spinup"]
+}

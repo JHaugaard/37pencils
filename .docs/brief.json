@@ -1,0 +1,195 @@
+{
+  "document_type": "brief",
+  "version": "1.0",
+  "created": "2025-12-13",
+  "project": "37-pencils",
+  "mode": "LEARNING",
+
+  "rationale": "A personal digital garden that prioritizes the joy of building over conventional blog structure. Ideas grow and interconnect through backlinks and semantic search. The process of creation is as important as the result.",
+
+  "problem": {
+    "statement": "Traditional blog platforms produce predictable, templated experiences with no connective tissue between ideas. The building process itself is uninspiring, and the chronological structure doesn't serve how thoughts actually develop and relate to each other.",
+    "impact": [
+      "Ideas remain siloed and don't surface when relevant",
+      "The creative process of building is reduced to filling in templates",
+      "Readers (including the author) can't explore connections between thoughts"
+    ]
+  },
+
+  "goals": {
+    "primary": "Build a personal digital garden that's as interesting to create as it is to explore, with interconnected ideas and non-linear navigation.",
+    "secondary": [
+      "Learn new technologies through hands-on implementation",
+      "Create a space for quick observations, tangents, and curiosities",
+      "Implement bidirectional linking and semantic search",
+      "Document the AI-assisted development journey as content",
+      "Occasionally showcase photography from a 55-year personal archive"
+    ]
+  },
+
+  "features": [
+    {
+      "name": "Digital Garden Structure",
+      "description": "Non-chronological organization with ideas in growth states (seedling/growing/evergreen). Exploratory navigation rather than reverse-chronological feed.",
+      "priority": "must-have"
+    },
+    {
+      "name": "Bidirectional Links",
+      "description": "Wiki-style linking where mentioning concepts automatically surfaces connections to other posts. Backlinks shown on each post.",
+      "priority": "must-have"
+    },
+    {
+      "name": "Semantic Search",
+      "description": "Search that understands meaning and surfaces related content beyond keyword matching.",
+      "priority": "must-have"
+    },
+    {
+      "name": "Draft/Seedling States",
+      "description": "Private or unlisted states for ideas not yet ready for public viewing. Ability to mature content before publishing.",
+      "priority": "must-have"
+    },
+    {
+      "name": "Image Hosting",
+      "description": "Direct hosting of photography on the site with appropriate optimization. Photography as occasional element, not primary focus.",
+      "priority": "must-have"
+    },
+    {
+      "name": "Brutalism-Lite Aesthetic",
+      "description": "Bold, distinctive visual design with personality. Not aggressively inaccessible, but clearly not another generic template.",
+      "priority": "must-have"
+    },
+    {
+      "name": "About Page",
+      "description": "Low-key personal presence with contact method. Not a personal brand exercise.",
+      "priority": "must-have"
+    },
+    {
+      "name": "Scrollytelling Capability",
+      "description": "Scroll-triggered storytelling available for posts that warrant it. Not baked into core structure. Requires investigation to determine fit.",
+      "priority": "nice-to-have"
+    },
+    {
+      "name": "Automation Windows",
+      "description": "RSS aggregation, activity feeds, currently reading/listening widgets pulling in external interests.",
+      "priority": "nice-to-have"
+    }
+  ],
+
+  "success_criteria": [
+    {
+      "metric": "Shipped and Live",
+      "measurement": "Site accessible at 37pencils.net"
+    },
+    {
+      "metric": "Learning Achieved",
+      "measurement": "New technical skills acquired through implementation"
+    },
+    {
+      "metric": "Enjoyment",
+      "measurement": "The building process was genuinely fun and interesting"
+    },
+    {
+      "metric": "Functional Digital Garden",
+      "measurement": "Bidirectional links and semantic search working as intended"
+    }
+  ],
+
+  "use_cases": [
+    {
+      "name": "Publishing a Quick Observation",
+      "scenario": "Author has a thought sparked by something they read. It connects to a previous idea.",
+      "expected_behavior": [
+        "Create new post as seedling (private)",
+        "Develop the thought, add links to related concepts",
+        "System automatically creates backlinks from referenced posts",
+        "Promote to public when ready"
+      ]
+    },
+    {
+      "name": "Exploring the Garden",
+      "scenario": "A visitor lands on a post about photography processing.",
+      "expected_behavior": [
+        "See backlinks to other posts that reference similar concepts",
+        "Use semantic search to find related content",
+        "Navigate non-linearly through interconnected ideas",
+        "Discover unexpected connections"
+      ]
+    },
+    {
+      "name": "Adding Photography",
+      "scenario": "Author wants to share an image from their archive with context.",
+      "expected_behavior": [
+        "Upload image directly to site",
+        "Image optimized automatically",
+        "Write accompanying story/context",
+        "Link to related posts about technique or subject"
+      ]
+    }
+  ],
+
+  "edge_cases": [
+    {
+      "category": "Content Maturity",
+      "problem": "Half-formed ideas that aren't ready for public viewing",
+      "solution": "Seedling state keeps posts private. Author controls when to promote to public."
+    },
+    {
+      "category": "Orphan Content",
+      "problem": "Posts with no backlinks or connections",
+      "solution": "Surface orphan posts for review. Not everything needs connections, but awareness helps."
+    },
+    {
+      "category": "Image Storage",
+      "problem": "Large photography files impacting performance",
+      "solution": "Automatic image optimization. Photography is occasional element, not high-volume."
+    }
+  ],
+
+  "constraints": {
+    "timeline": null,
+    "budget": null,
+    "infrastructure": "Domain (37pencils.net) owned, Cloudflare DNS management"
+  },
+
+  "assumptions": [
+    "Claude Code will be primary implementor throughout the project",
+    "Tech stack must be learnable and debuggable with AI assistance",
+    "Technical complexity is welcomed as learning opportunity",
+    "Open-ended timeline allows for exploration and iteration"
+  ],
+
+  "out_of_scope": [
+    "Automation windows / RSS aggregation (deferred to post-v1)",
+    "Comments or interactive features",
+    "High-volume photography portfolio functionality",
+    "Mobile app",
+    "User accounts or authentication for visitors",
+    "Scrollytelling (investigate post-v1 to determine fit)"
+  ],
+
+  "deployment_intent": "public",
+
+  "learning_goals": {
+    "topics": [
+      "Digital garden architecture and philosophy",
+      "Bidirectional linking implementation",
+      "Semantic search integration",
+      "Modern web development practices",
+      "AI-assisted development workflows"
+    ],
+    "skills": [
+      "Building interconnected content systems",
+      "Implementing search functionality",
+      "Web performance optimization for images",
+      "Deploying to Cloudflare"
+    ]
+  },
+
+  "user_stated_preferences": {
+    "disclaimer": "These are user-stated starting points, NOT requirements. Downstream skills should provide unbiased recommendations.",
+    "technology": null,
+    "platform": "Cloudflare for DNS"
+  },
+
+  "handoff_to": ["solution-architect"]
+}
