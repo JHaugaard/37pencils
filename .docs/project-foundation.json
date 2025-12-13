@@ -1,0 +1,76 @@
+{
+  "document_type": "project-foundation",
+  "version": "1.0",
+  "created": "2025-12-13",
+  "project": "37-pencils",
+  "mode": "LEARNING",
+
+  "rationale": "Generated project foundation with Astro 4.x, Tailwind CSS, and MDX for a digital garden. Guided Setup approach provides step-by-step prompts to build features incrementally while learning the stack.",
+
+  "tech_stack": {
+    "frontend": "Astro 4.x",
+    "backend": "None (static site generation)",
+    "database": "None (Git-based content)",
+    "auth": "None (public site)",
+    "styling": "Tailwind CSS 3.x",
+    "storage": "Git repository for content",
+    "search": "Pagefind (build-time index)",
+    "key_libraries": ["@astrojs/mdx", "@astrojs/tailwind", "pagefind"]
+  },
+
+  "deployment": {
+    "target": "Cloudflare Pages",
+    "approach": "static",
+    "development_environment": "localhost",
+    "is_termination_point": false
+  },
+
+  "generated_files": [
+    {"path": "CLAUDE.md", "purpose": "Project context for AI assistant with guided setup prompts"},
+    {"path": "README.md", "purpose": "Project overview and quick start"},
+    {"path": "package.json", "purpose": "Dependencies and npm scripts"},
+    {"path": "astro.config.mjs", "purpose": "Astro framework configuration"},
+    {"path": "tailwind.config.mjs", "purpose": "Tailwind CSS configuration"},
+    {"path": "tsconfig.json", "purpose": "TypeScript configuration"},
+    {"path": ".gitignore", "purpose": "Git ignore patterns"},
+    {"path": ".env.example", "purpose": "Environment variable template"},
+    {"path": "src/", "purpose": "Source directory structure"},
+    {"path": "public/", "purpose": "Static assets directory"}
+  ],
+
+  "spinup_approach": "guided",
+
+  "guided_steps": [
+    "Step 1: Base Layout and Homepage",
+    "Step 2: Content Collection Schema",
+    "Step 3: Post List and Individual Post Pages",
+    "Step 4: Wiki-Style Links (Basic)",
+    "Step 5: Backlinks",
+    "Step 6: Pagefind Search",
+    "Step 7: Image Optimization",
+    "Step 8: Growth Status Visual System",
+    "Step 9: About Page and Navigation",
+    "Step 10: Polish and Production Prep"
+  ],
+
+  "environment_integration": {
+    "registry_loaded": true,
+    "services_referenced": [],
+    "endpoints_configured": []
+  },
+
+  "workflow_status": {
+    "completed_phases": ["project-brief-writer", "solution-architect", "tech-stack-advisor", "deployment-advisor", "project-spinup"],
+    "is_termination_point": false,
+    "next_phases": ["deploy-guide"]
+  },
+
+  "next_actions": [
+    "Run npm install to install dependencies",
+    "Follow Step 1 in CLAUDE.md to create base layout",
+    "Continue through guided steps incrementally",
+    "Use deploy-guide skill when ready to deploy to Cloudflare Pages"
+  ],
+
+  "handoff_to": ["deploy-guide"]
+}

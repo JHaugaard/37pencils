@@ -11,8 +11,8 @@
 | 0 | project-brief-writer | COMPLETE | `.docs/PROJECT-MODE.md`, `.docs/brief.json` |
 | 0.5 | solution-architect | COMPLETE | `.docs/architecture-context.json` |
 | 1 | tech-stack-advisor | COMPLETE | `.docs/tech-stack-decision.json` |
-| 2 | deployment-advisor | NEXT | |
-| 3 | project-spinup | Pending | |
+| 2 | deployment-advisor | COMPLETE | `.docs/deployment-strategy.json` |
+| 3 | project-spinup | COMPLETE | `.docs/project-foundation.json` |
 
 ## Project Summary
 
@@ -85,11 +85,30 @@ None added yet.
 
 ## Next Steps
 
-1. Invoke `deployment-advisor` to decide hosting (Cloudflare Pages vs VPS)
-2. Then proceed to `project-spinup` to generate project foundation
+1. Run `npm install` to install dependencies
+2. Follow Step 1 in CLAUDE.md (Base Layout and Homepage)
+3. Continue through guided steps 2-10
+4. Use `deploy-guide` skill when ready for Cloudflare Pages deployment
 
 ## Session Status
 
 Completed: 2025-12-13
 Servers cleaned: None added (clean session)
 Tool count: 6 (clean slate)
+
+---
+
+### Session 2025-12-13 Summary
+
+**Completed this session:**
+- deployment-advisor: Selected Cloudflare Pages (free tier, automatic deploys)
+- project-spinup: Generated foundation with Guided Setup approach
+
+**Files created:**
+- CLAUDE.md (updated with full project context + 10 guided steps)
+- package.json, astro.config.mjs, tailwind.config.mjs, tsconfig.json
+- .gitignore, .env.example, README.md
+- src/ directory structure (components, content, layouts, pages, styles)
+- .docs/deployment-strategy.json, .docs/project-foundation.json
+
+**Ready for development** - run `npm install` then follow CLAUDE.md steps.
