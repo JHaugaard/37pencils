@@ -1,5 +1,6 @@
+---
 title: "New Post Tryout"
-description: "Working on some editting options"
+description: "Working on some editing options"
 pubDate: 2024-12-14
 status: "seedling"
 tags: ["meta", "process"]
