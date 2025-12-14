@@ -1,0 +1,140 @@
+---
+/**
+ * Individual Post Page (Dynamic Route)
+ *
+ * The [...slug] pattern explanation:
+ * - [slug] would match /posts/my-post
+ * - [...slug] (rest parameter) matches /posts/my-post AND /posts/nested/my-post
+ *
+ * We use [...slug] to support potential future nested content organization
+ * (e.g., posts organized by year or topic folders).
+ *
+ * How it works:
+ * 1. getStaticPaths() runs at build time
+ * 2. It returns all possible routes with their params and props
+ * 3. Astro generates a static HTML file for each
+ * 4. The render() function converts MDX to a renderable component
+ */
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import StatusBadge from '../../components/StatusBadge.astro';
+import { buildBacklinksMap, type BacklinkInfo } from '../../utils/backlinks';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts', ({ data }) => {
+    return import.meta.env.PROD ? data.draft !== true : true;
+  });
+
+  // Build backlinks map once for all posts
+  // This is efficient: we scan all posts once, then distribute the results
+  const backlinksMap = await buildBacklinksMap();
+
+  return posts.map((post) => {
+    // The id includes the file extension, so we strip it for the URL
+    const slug = post.id.replace('.mdx', '');
+
+    // Get backlinks for this specific post
+    const backlinks = backlinksMap.get(slug) || [];
+
+    return {
+      params: { slug },
+      props: { post, backlinks },
+    };
+  });
+}
+
+const { post, backlinks } = Astro.props as { post: any; backlinks: BacklinkInfo[] };
+const { Content } = await render(post);
+
+// Format dates
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
+---
+
+<BaseLayout title={`${post.data.title} | 37 Pencils`} description={post.data.description}>
+  <article class="max-w-2xl mx-auto px-6 py-12" data-pagefind-body>
+    {/* Header */}
+    <header class="mb-8">
+      <h1 class="text-3xl font-semibold text-ink mb-3" data-pagefind-meta="title">{post.data.title}</h1>
+
+      <div class="flex flex-wrap items-center gap-4 text-sm text-ink-light">
+        {/* Date */}
+        <time datetime={post.data.pubDate.toISOString()}>
+          {formatDate(post.data.pubDate)}
+        </time>
+
+        {/* Updated date if different */}
+        {post.data.updatedDate && (
+          <span class="text-ink-lighter">
+            (updated {formatDate(post.data.updatedDate)})
+          </span>
+        )}
+
+        {/* Status badge */}
+        <StatusBadge status={post.data.status} size="sm" />
+
+        {/* Draft indicator (dev only) */}
+        {post.data.draft && (
+          <span class="px-2 py-0.5 rounded-sm bg-yellow-100 text-yellow-800 text-xs border border-yellow-200">
+            Draft
+          </span>
+        )}
+      </div>
+
+      {/* Tags */}
+      {post.data.tags && post.data.tags.length > 0 && (
+        <div class="mt-4 flex flex-wrap gap-2">
+          {post.data.tags.map((tag: string) => (
+            <span class="text-xs px-2 py-1 bg-paper-subtle text-ink-light rounded-sm border border-ink/10">
+              #{tag}
+            </span>
+          ))}
+        </div>
+      )}
+    </header>
+
+    {/* Content */}
+    <div class="prose prose-gray max-w-none">
+      <Content />
+    </div>
+
+    {/* Backlinks Section */}
+    {backlinks.length > 0 && (
+      <aside class="mt-16 pt-8 border-t border-ink/10" data-pagefind-ignore>
+        <h2 class="text-sm font-medium text-ink-light uppercase tracking-wide mb-4">
+          Linked from
+        </h2>
+        <ul class="space-y-3">
+          {backlinks.map((link) => (
+            <li>
+              <a
+                href={`/posts/${link.slug}`}
+                class="group block p-3 -mx-3 rounded-sm hover:bg-paper-subtle transition-colors"
+              >
+                <span class="font-medium text-ink group-hover:text-accent">
+                  {link.title}
+                </span>
+                <p class="text-sm text-ink-light mt-0.5 line-clamp-1">
+                  {link.description}
+                </p>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </aside>
+    )}
+
+    {/* Footer navigation */}
+    <footer class="mt-12 pt-8 border-t border-ink/10" data-pagefind-ignore>
+      <a href="/posts" class="text-ink-light hover:text-ink text-sm inline-flex items-center gap-1">
+        <span>&larr;</span>
+        <span>Back to the garden</span>
+      </a>
+    </footer>
+  </article>
+</BaseLayout>

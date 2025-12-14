@@ -98,7 +98,7 @@ DNS is already on Cloudflare. Use `deploy-guide` skill when ready to:
 
 1. Create GitHub repository
 2. Connect Cloudflare Pages
-3. Configure custom domain (37pencils.net)
+3. Configure custom domain (37-pencils.com)
 
 ## Code Conventions
 
@@ -185,6 +185,83 @@ npm run dev -- --port 4322
 
 - Use `import` for local images, not string paths
 - Images in `src/` are optimized; `public/` images are not
+
+## Image Workflow
+
+### Where to Put Images
+
+```text
+src/assets/images/        <- Optimized (use this for content)
+├── photo.jpg               Processed at build time
+├── hero.png                Generates WebP, multiple sizes
+└── diagram.svg             Hash-based filenames for caching
+
+public/                   <- Static (use for special cases)
+├── favicon.svg             Copied as-is, no processing
+├── robots.txt              Direct URL access
+└── og-image.png            When exact URL is needed
+```
+
+### Using the Figure Component
+
+In MDX files, import and use the Figure component:
+
+```mdx
+---
+title: "My Post"
+---
+
+import Figure from '../../components/Figure.astro';
+import myPhoto from '../../assets/images/my-photo.jpg';
+
+Some text here.
+
+<Figure
+  src={myPhoto}
+  alt="Description of the image"
+  caption="Optional caption below the image"
+/>
+
+More text.
+```
+
+### Figure Component Props
+
+| Prop | Type | Required | Description |
+|------|------|----------|-------------|
+| `src` | ImageMetadata | Yes | Imported image |
+| `alt` | string | Yes | Alt text for accessibility |
+| `caption` | string | No | Caption below image |
+| `width` | number | No | Width constraint (default: 672px) |
+| `loading` | 'lazy' \| 'eager' | No | Loading strategy (default: lazy) |
+| `class` | string | No | Additional CSS classes |
+
+### What Happens at Build Time
+
+```text
+Input:  src/assets/images/photo.jpg (800KB, 2400x1600)
+
+Output: dist/_astro/
+        ├── photo_abc123_400w.webp   (7KB)
+        ├── photo_abc123_600w.webp   (14KB)
+        ├── photo_abc123_800w.webp   (20KB)
+        └── photo_abc123_1200w.webp  (36KB)
+
+HTML:   <img srcset="...400w, ...600w, ...800w, ...1200w"
+             sizes="(max-width: 672px) 100vw, 672px"
+             loading="lazy" decoding="async" />
+```
+
+### Quick Reference
+
+```bash
+# Add a new image
+1. Place image in src/assets/images/
+2. In your MDX file:
+   import Figure from '../../components/Figure.astro';
+   import myImage from '../../assets/images/my-image.jpg';
+3. Use: <Figure src={myImage} alt="Description" />
+```
 
 ## Skill Location
 

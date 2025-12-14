@@ -1,42 +1,60 @@
 ---
+/**
+ * Homepage
+ *
+ * A simple landing page that introduces the digital garden concept
+ * and provides clear paths to explore.
+ */
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+// Get post count for display
+const posts = await getCollection('posts', ({ data }) => {
+  return import.meta.env.PROD ? data.draft !== true : true;
+});
+const postCount = posts.length;
 ---
 
-<BaseLayout title="37 Pencils">
-  <main class="min-h-screen flex flex-col">
+<BaseLayout title="37 Pencils" description="A digital garden where ideas grow sideways.">
+  <div class="min-h-[calc(100vh-65px)] flex flex-col">
     <!-- Hero section - centered vertically -->
-    <div class="flex-1 flex items-center justify-center px-6">
-      <div class="max-w-prose-wide text-center">
-        <!-- Site title with subtle character -->
-        <h1 class="text-4xl sm:text-5xl font-semibold tracking-tight text-ink mb-4">
-          37 Pencils
-        </h1>
-
+    <div class="flex-1 flex items-center justify-center px-6 py-12">
+      <div class="max-w-xl text-center">
         <!-- Tagline -->
-        <p class="text-xl sm:text-2xl text-ink-light font-normal mb-8">
+        <p class="text-xl sm:text-2xl text-ink-light font-normal mb-6">
           Where ideas grow sideways.
         </p>
 
         <!-- Brief intro -->
-        <p class="text-base text-ink-lighter max-w-prose mx-auto leading-relaxed">
+        <p class="text-base text-ink-lighter max-w-prose mx-auto leading-relaxed mb-10">
           A digital garden of interconnected thoughts, observations, and curiosities.
           Not a blog. Ideas here exist in various stages of done.
         </p>
 
-        <!-- Placeholder for future navigation -->
-        <nav class="mt-12 flex items-center justify-center gap-8 text-sm">
-          <span class="text-ink-lighter">Posts coming soon</span>
-          <span class="text-ink-lighter/50">|</span>
-          <span class="text-ink-lighter">About coming soon</span>
-        </nav>
+        <!-- Call to action -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href="/posts"
+            class="inline-flex items-center gap-2 px-6 py-3 bg-ink text-paper font-medium rounded-sm hover:bg-ink/90 transition-colors"
+          >
+            <span>Explore the garden</span>
+            <span class="text-paper/60">({postCount})</span>
+          </a>
+          <a
+            href="/about"
+            class="inline-flex items-center gap-2 px-6 py-3 border border-ink/20 text-ink font-medium rounded-sm hover:border-ink/40 transition-colors"
+          >
+            About this place
+          </a>
+        </div>
       </div>
     </div>
 
     <!-- Subtle footer -->
-    <footer class="py-8 text-center">
+    <footer class="py-6 text-center border-t border-ink/5">
       <p class="text-xs text-ink-lighter">
         Tended with care
       </p>
     </footer>
-  </main>
+  </div>
 </BaseLayout>

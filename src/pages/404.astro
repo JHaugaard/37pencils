@@ -1,0 +1,65 @@
+---
+/**
+ * 404 Page
+ *
+ * A friendly error page that maintains the garden metaphor.
+ * Provides helpful navigation back to explored territory.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Page not found | 37 Pencils" description="This page doesn't exist.">
+  <div class="min-h-[calc(100vh-65px)] flex items-center justify-center px-6 py-12">
+    <div class="max-w-md text-center">
+      <!-- Error code with garden metaphor -->
+      <div class="mb-8">
+        <span class="text-6xl" aria-hidden="true">🌿</span>
+      </div>
+
+      <h1 class="text-2xl font-semibold text-ink mb-3">
+        Nothing planted here yet
+      </h1>
+
+      <p class="text-ink-light mb-8">
+        This corner of the garden doesn't exist—or perhaps it's been moved
+        or renamed. Ideas tend to wander.
+      </p>
+
+      <!-- Navigation options -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a
+          href="/"
+          class="inline-flex items-center gap-2 px-5 py-2.5 bg-ink text-paper font-medium rounded-sm hover:bg-ink/90 transition-colors"
+        >
+          Go home
+        </a>
+        <a
+          href="/posts"
+          class="inline-flex items-center gap-2 px-5 py-2.5 border border-ink/20 text-ink font-medium rounded-sm hover:border-ink/40 transition-colors"
+        >
+          Explore the garden
+        </a>
+      </div>
+
+      <!-- Helpful hint -->
+      <p class="mt-10 text-sm text-ink-lighter">
+        Looking for something specific? Try the
+        <button
+          id="search-404-trigger"
+          class="text-accent hover:underline"
+          type="button"
+        >search</button>.
+      </p>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  // Connect the search link to the main search modal
+  const searchTrigger = document.getElementById('search-404-trigger');
+  const mainSearchTrigger = document.getElementById('search-trigger');
+
+  searchTrigger?.addEventListener('click', () => {
+    mainSearchTrigger?.click();
+  });
+</script>

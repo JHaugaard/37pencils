@@ -1,0 +1,260 @@
+---
+/**
+ * Search Component
+ *
+ * A modal-based search UI powered by Pagefind.
+ *
+ * How Pagefind's build-time indexing works:
+ *
+ * 1. BUILD PHASE (after Astro generates HTML):
+ *    - pagefind --site dist scans all HTML files
+ *    - Extracts text content, creates a search index
+ *    - Generates chunked index files in dist/pagefind/
+ *    - Total bundle: ~4KB base + chunks loaded on demand
+ *
+ * 2. RUNTIME PHASE (in browser):
+ *    - PagefindUI loads the minimal base bundle
+ *    - On first search, fetches relevant index chunks
+ *    - Searches happen client-side (no server needed)
+ *    - Results include highlighted excerpts
+ *
+ * Why this approach is great for static sites:
+ * - Zero runtime server costs
+ * - Fast searches (index is pre-computed)
+ * - Works offline after first load
+ * - Tiny footprint (~4KB vs 100KB+ for Algolia)
+ */
+---
+
+<!-- Search Trigger Button -->
+<button
+  id="search-trigger"
+  type="button"
+  class="flex items-center gap-2 px-3 py-1.5 text-sm text-ink-light hover:text-ink border border-ink/10 hover:border-ink/20 rounded-sm transition-colors"
+  aria-label="Search"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class="w-4 h-4"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    stroke-width="2"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+    />
+  </svg>
+  <span class="hidden sm:inline">Search</span>
+  <kbd class="hidden sm:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-xs font-mono bg-paper-subtle rounded-sm">
+    <span class="text-xs">⌘</span>K
+  </kbd>
+</button>
+
+<!-- Search Modal Backdrop -->
+<div
+  id="search-modal"
+  class="fixed inset-0 z-50 hidden"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Search"
+>
+  <!-- Backdrop overlay -->
+  <div
+    id="search-backdrop"
+    class="absolute inset-0 bg-black/50 backdrop-blur-sm"
+  ></div>
+
+  <!-- Modal content -->
+  <div class="relative flex items-start justify-center pt-[10vh] px-4">
+    <div
+      id="search-container"
+      class="w-full max-w-xl bg-paper rounded-sm shadow-lifted overflow-hidden border border-ink/10"
+    >
+      <!-- Pagefind will inject its UI here -->
+      <div id="pagefind-container"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Pagefind Styles (customized for brutalism-lite) -->
+<style is:global>
+  /* Override Pagefind's default styles for brutalism-lite aesthetic */
+  :root {
+    --pagefind-ui-scale: 1;
+    --pagefind-ui-primary: #111;
+    --pagefind-ui-text: #111;
+    --pagefind-ui-background: #fff;
+    --pagefind-ui-border: #e5e5e5;
+    --pagefind-ui-tag: #f5f5f5;
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 4px;
+    --pagefind-ui-image-border-radius: 4px;
+    --pagefind-ui-image-box-ratio: 3 / 2;
+    --pagefind-ui-font: inherit;
+  }
+
+  /* Input styling */
+  .pagefind-ui__search-input {
+    font-size: 1rem !important;
+    padding: 0.875rem 1rem !important;
+    border: none !important;
+    border-bottom: 1px solid var(--pagefind-ui-border) !important;
+    border-radius: 0 !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  .pagefind-ui__search-input:focus {
+    border-color: #111 !important;
+    box-shadow: none !important;
+  }
+
+  /* Clear button */
+  .pagefind-ui__search-clear {
+    right: 1rem !important;
+    color: #666 !important;
+  }
+
+  /* Results container */
+  .pagefind-ui__results-area {
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+
+  /* Individual results */
+  .pagefind-ui__result {
+    padding: 1rem !important;
+    border-bottom: 1px solid var(--pagefind-ui-border) !important;
+    border-radius: 0 !important;
+  }
+
+  .pagefind-ui__result:hover {
+    background: #fafafa !important;
+  }
+
+  .pagefind-ui__result:last-child {
+    border-bottom: none !important;
+  }
+
+  /* Result title */
+  .pagefind-ui__result-link {
+    font-weight: 500 !important;
+    color: #111 !important;
+    text-decoration: none !important;
+  }
+
+  .pagefind-ui__result-link:hover {
+    text-decoration: underline !important;
+  }
+
+  /* Result excerpt */
+  .pagefind-ui__result-excerpt {
+    font-size: 0.875rem !important;
+    color: #666 !important;
+    margin-top: 0.25rem !important;
+  }
+
+  /* Highlight matches */
+  .pagefind-ui__result-excerpt mark {
+    background: #fef08a !important;
+    color: inherit !important;
+    padding: 0.125rem 0 !important;
+  }
+
+  /* Message when no results */
+  .pagefind-ui__message {
+    padding: 2rem 1rem !important;
+    text-align: center !important;
+    color: #666 !important;
+  }
+
+  /* Hide elements we don't need */
+  .pagefind-ui__form::before,
+  .pagefind-ui__result-thumb,
+  .pagefind-ui__result-image {
+    display: none !important;
+  }
+
+  /* Loading state */
+  .pagefind-ui__loading {
+    padding: 2rem 1rem !important;
+    text-align: center !important;
+  }
+</style>
+
+<!-- Search Script -->
+<script>
+  import { PagefindUI } from '@pagefind/default-ui';
+
+  // Elements
+  const trigger = document.getElementById('search-trigger');
+  const modal = document.getElementById('search-modal');
+  const backdrop = document.getElementById('search-backdrop');
+  const container = document.getElementById('pagefind-container');
+
+  let pagefindUI: PagefindUI | null = null;
+
+  // Initialize Pagefind UI (lazy load on first open)
+  function initPagefind() {
+    if (pagefindUI || !container) return;
+
+    pagefindUI = new PagefindUI({
+      element: container,
+      showSubResults: false,
+      showImages: false,
+      excerptLength: 15,
+      resetStyles: false,
+      translations: {
+        placeholder: 'Search posts...',
+        zero_results: 'No posts found for "[SEARCH_TERM]"',
+      },
+    });
+  }
+
+  // Open modal
+  function openSearch() {
+    if (!modal) return;
+
+    initPagefind();
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+
+    // Focus the search input after a brief delay
+    setTimeout(() => {
+      const input = container?.querySelector<HTMLInputElement>('.pagefind-ui__search-input');
+      input?.focus();
+    }, 50);
+  }
+
+  // Close modal
+  function closeSearch() {
+    if (!modal) return;
+
+    modal.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+
+  // Event listeners
+  trigger?.addEventListener('click', openSearch);
+  backdrop?.addEventListener('click', closeSearch);
+
+  // Keyboard shortcuts
+  document.addEventListener('keydown', (e) => {
+    // Cmd/Ctrl + K to open
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      openSearch();
+    }
+
+    // Escape to close
+    if (e.key === 'Escape' && !modal?.classList.contains('hidden')) {
+      closeSearch();
+    }
+  });
+
+  // Close on navigation (for SPAs, though we're static)
+  document.addEventListener('astro:before-preparation', closeSearch);
+</script>

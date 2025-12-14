@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#ffffff"/>
+
+  <!-- Decorative corner accent -->
+  <rect x="0" y="0" width="8" height="630" fill="#37352f"/>
+
+  <!-- Content area -->
+  <g transform="translate(80, 200)">
+    <!-- Site title -->
+    <text
+      font-family="Inter, system-ui, -apple-system, sans-serif"
+      font-size="72"
+      font-weight="600"
+      fill="#37352f"
+    >37 Pencils</text>
+
+    <!-- Tagline -->
+    <text
+      y="100"
+      font-family="Inter, system-ui, -apple-system, sans-serif"
+      font-size="36"
+      fill="#6b6b6b"
+    >Where ideas grow sideways.</text>
+
+    <!-- Decorative line -->
+    <rect y="150" width="120" height="4" fill="#2eaadc"/>
+
+    <!-- Description -->
+    <text
+      y="200"
+      font-family="Inter, system-ui, -apple-system, sans-serif"
+      font-size="24"
+      fill="#9b9a97"
+    >A digital garden of interconnected thoughts</text>
+  </g>
+
+  <!-- Domain in corner -->
+  <text
+    x="1120"
+    y="590"
+    font-family="Inter, system-ui, -apple-system, sans-serif"
+    font-size="20"
+    fill="#9b9a97"
+    text-anchor="end"
+  >37-pencils.com</text>
+</svg>

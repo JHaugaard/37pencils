@@ -14,7 +14,13 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(git push:*)",
-      "Bash(git rev-parse:*)"
+      "Bash(git rev-parse:*)",
+      "Bash(npx astro:*)",
+      "Bash(npm i:*)",
+      "Bash(timeout 10 npm run dev)",
+      "Bash(cat:*)",
+      "Bash(timeout 5 npm run:*)",
+      "Bash(lsof:*)"
     ]
   }
 }

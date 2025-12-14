@@ -1,4 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="4" fill="#37352f"/>
-  <text x="16" y="22" font-family="system-ui, sans-serif" font-size="16" font-weight="600" fill="#ffffff" text-anchor="middle">37</text>
+  <!-- Brutalism-lite: sharp corners, bold contrast -->
+  <rect width="32" height="32" fill="#37352f"/>
+  <text
+    x="16"
+    y="23"
+    font-family="Inter, system-ui, -apple-system, sans-serif"
+    font-size="18"
+    font-weight="600"
+    fill="#ffffff"
+    text-anchor="middle"
+  >37</text>
 </svg>
