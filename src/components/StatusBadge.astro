@@ -1,0 +1,132 @@
+---
+/**
+ * StatusBadge Component
+ *
+ * Displays the growth state of a post in the digital garden.
+ * Each status has a distinct visual treatment:
+ * - Seedling: Fresh green, rough edges - ideas just planted
+ * - Growing: Deeper green, gaining substance
+ * - Evergreen: Rich forest tone, mature and stable
+ *
+ * Hover states reveal what each status means, helping visitors
+ * understand the digital garden metaphor.
+ */
+
+type Status = 'seedling' | 'growing' | 'evergreen';
+
+interface Props {
+  status: Status;
+  /** Show as a compact inline badge (for lists) or larger (for headers) */
+  size?: 'sm' | 'md';
+  /** Show the label text alongside the icon */
+  showLabel?: boolean;
+}
+
+const { status, size = 'sm', showLabel = true } = Astro.props;
+
+// Status configuration: icon, label, description, and color classes
+const statusConfig = {
+  seedling: {
+    icon: '🌱',
+    label: 'Seedling',
+    description: 'A fresh idea, possibly incomplete',
+    // Light green background, darker green text - energetic, new
+    bgClass: 'bg-emerald-50',
+    textClass: 'text-emerald-700',
+    borderClass: 'border-emerald-200',
+    hoverBgClass: 'hover:bg-emerald-100',
+  },
+  growing: {
+    icon: '🌿',
+    label: 'Growing',
+    description: 'Has substance, still evolving',
+    // Medium green - developing, gaining depth
+    bgClass: 'bg-green-50',
+    textClass: 'text-green-700',
+    borderClass: 'border-green-200',
+    hoverBgClass: 'hover:bg-green-100',
+  },
+  evergreen: {
+    icon: '🌲',
+    label: 'Evergreen',
+    description: 'Mature and relatively stable',
+    // Deep forest green - established, reliable
+    bgClass: 'bg-teal-50',
+    textClass: 'text-teal-700',
+    borderClass: 'border-teal-200',
+    hoverBgClass: 'hover:bg-teal-100',
+  },
+};
+
+const config = statusConfig[status];
+
+// Size classes
+const sizeClasses = {
+  sm: 'text-xs px-2 py-0.5 gap-1',
+  md: 'text-sm px-3 py-1 gap-1.5',
+};
+---
+
+<span
+  class:list={[
+    'status-badge inline-flex items-center font-medium rounded-sm border',
+    'transition-colors duration-150 cursor-help',
+    'relative group',
+    config.bgClass,
+    config.textClass,
+    config.borderClass,
+    config.hoverBgClass,
+    sizeClasses[size],
+  ]}
+  title={config.description}
+>
+  <span class="status-icon" aria-hidden="true">{config.icon}</span>
+  {showLabel && <span class="status-label">{config.label}</span>}
+
+  {/* Tooltip - appears on hover */}
+  <span
+    class:list={[
+      'status-tooltip absolute left-1/2 -translate-x-1/2 bottom-full mb-2',
+      'px-2.5 py-1.5 rounded-sm shadow-lifted',
+      'text-xs text-ink bg-white border border-ink/10',
+      'whitespace-nowrap opacity-0 invisible',
+      'group-hover:opacity-100 group-hover:visible',
+      'transition-all duration-150 z-10',
+      'pointer-events-none',
+    ]}
+    role="tooltip"
+  >
+    {config.description}
+    {/* Tooltip arrow */}
+    <span
+      class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0
+             border-l-4 border-r-4 border-t-4
+             border-l-transparent border-r-transparent border-t-white"
+    >
+    </span>
+  </span>
+</span>
+
+<style>
+  /*
+   * Brutalism-lite touch: slight roughness via box-shadow
+   * Creates a subtle "stamped" effect without being too harsh
+   */
+  .status-badge {
+    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.05);
+  }
+
+  .status-badge:hover {
+    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  /*
+   * Tooltip positioning fix for edge cases
+   * Ensures tooltip stays within viewport when near edges
+   */
+  .status-tooltip::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+  }
+</style>

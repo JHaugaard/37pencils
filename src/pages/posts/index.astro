@@ -1,0 +1,98 @@
+---
+/**
+ * Posts Listing Page
+ *
+ * Displays all posts from the content collection, grouped by growth status.
+ * Drafts are filtered out in production but shown in development.
+ *
+ * Key concepts:
+ * - getCollection('posts') fetches all entries from src/content/posts/
+ * - The filter callback lets us conditionally include/exclude entries
+ * - import.meta.env.PROD is true during `astro build`, false during `astro dev`
+ */
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import StatusBadge from '../../components/StatusBadge.astro';
+
+// Get posts, filtering out drafts in production
+const posts = await getCollection('posts', ({ data }) => {
+  // In production, exclude drafts. In dev, show everything.
+  return import.meta.env.PROD ? data.draft !== true : true;
+});
+
+// Group posts by status for the digital garden display
+const evergreen = posts.filter((p) => p.data.status === 'evergreen');
+const growing = posts.filter((p) => p.data.status === 'growing');
+const seedlings = posts.filter((p) => p.data.status === 'seedling');
+
+// Format date helper
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+}
+
+// Section headers with status info
+const sections = [
+  { status: 'evergreen' as const, posts: evergreen, description: 'Mature and stable' },
+  { status: 'growing' as const, posts: growing, description: 'Developing ideas' },
+  { status: 'seedling' as const, posts: seedlings, description: 'Fresh thoughts' },
+];
+---
+
+<BaseLayout title="Posts | 37 Pencils" description="All posts in the garden">
+  <div class="max-w-2xl mx-auto px-6 py-12">
+    <header class="mb-12">
+      <h1 class="text-3xl font-semibold text-ink mb-2">The Garden</h1>
+      <p class="text-ink-light">Ideas in various states of growth.</p>
+    </header>
+
+    {/* Render each section that has posts */}
+    {sections.map(({ status, posts: sectionPosts }) => (
+      sectionPosts.length > 0 && (
+        <section class="mb-10">
+          <h2 class="text-sm font-medium text-ink-light uppercase tracking-wide mb-4 flex items-center gap-3">
+            <StatusBadge status={status} size="md" />
+          </h2>
+          <ul class="space-y-4">
+            {sectionPosts.map((post) => (
+              <li>
+                <a href={`/posts/${post.id.replace('.mdx', '')}`} class="block group">
+                  <div class="flex items-start gap-3">
+                    <h3 class="text-lg font-medium text-ink group-hover:text-accent flex-1">
+                      {post.data.title}
+                      {post.data.draft && (
+                        <span class="ml-2 text-xs bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded-sm border border-yellow-200">
+                          Draft
+                        </span>
+                      )}
+                    </h3>
+                  </div>
+                  <p class="text-ink-light text-sm mt-1">{post.data.description}</p>
+                  <time class="text-ink-lighter text-xs mt-1 block">
+                    {formatDate(post.data.pubDate)}
+                  </time>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    ))}
+
+    {/* Legend - now using StatusBadge components */}
+    <footer class="mt-16 pt-8 border-t border-ink/10">
+      <p class="text-sm text-ink-light mb-3 font-medium">About growth states:</p>
+      <div class="flex flex-wrap gap-3">
+        <StatusBadge status="seedling" size="sm" />
+        <StatusBadge status="growing" size="sm" />
+        <StatusBadge status="evergreen" size="sm" />
+      </div>
+      <p class="text-xs text-ink-lighter mt-3">
+        Hover over any badge to learn what it means.
+      </p>
+    </footer>
+  </div>
+</BaseLayout>

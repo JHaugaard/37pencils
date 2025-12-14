@@ -31,4 +31,21 @@
   .divider {
     @apply border-t border-ink/10 my-8;
   }
+
+  /**
+   * Wiki-style internal links [[like this]]
+   * Styled distinctively from regular links to signal internal navigation
+   */
+  .wiki-link {
+    @apply text-accent no-underline
+           border-b border-dashed border-accent/50
+           hover:border-accent hover:border-solid
+           transition-all duration-150;
+  }
+
+  /* Broken wiki links - page doesn't exist (yet) */
+  .wiki-link.wiki-link-broken {
+    @apply text-ink-light border-ink-lighter
+           hover:text-ink hover:border-ink-light;
+  }
 }

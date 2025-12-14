@@ -1,11 +1,34 @@
 ---
+/**
+ * Base Layout
+ *
+ * The foundation for all pages. Includes:
+ * - Meta tags for SEO and social sharing
+ * - Font loading (Inter)
+ * - Global styles
+ * - Navigation
+ *
+ * Supports optional og:image for social cards.
+ */
+import Navigation from '../components/Navigation.astro';
+
 interface Props {
   title: string;
   description?: string;
+  ogImage?: string;
 }
 
-const { title, description = 'A digital garden where ideas grow sideways.' } = Astro.props;
+const {
+  title,
+  description = 'A digital garden where ideas grow sideways.',
+  ogImage = '/og-image.svg',
+} = Astro.props;
+
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImageURL = new URL(ogImage, Astro.site);
+
+// Site name for branding
+const siteName = '37 Pencils';
 ---
 
 <!doctype html>
@@ -13,6 +36,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <!-- Primary Meta Tags -->
@@ -21,17 +46,23 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
 
-    <!-- Open Graph -->
+    <!-- Theme color for mobile browsers -->
+    <meta name="theme-color" content="#37352f" />
+
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:site_name" content={siteName} />
 
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary" />
-    <meta property="twitter:url" content={canonicalURL} />
-    <meta property="twitter:title" content={title} />
-    <meta property="twitter:description" content={description} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -46,7 +77,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       @import '../styles/global.css';
     </style>
   </head>
-  <body class="min-h-screen font-sans">
-    <slot />
+  <body class="min-h-screen font-sans bg-paper text-ink">
+    <Navigation />
+    <main>
+      <slot />
+    </main>
   </body>
 </html>
