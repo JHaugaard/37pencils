@@ -31,21 +31,21 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           though nothing is ever truly finished).
         </p>
       </section>
-
+    
       <!-- The Gardener -->
       <section>
         <h2 class="text-xl font-medium text-ink mb-3">Who tends it?</h2>
         <p class="text-ink-light leading-relaxed">
           {/* Replace this placeholder with your own intro */}
-          Hi, I'm the person behind this garden. I'm interested in
-          [your interests here] and I started this space to think out loud,
-          connect ideas, and share what I'm learning along the way.
+          Hi, I'm John Haugaard, the person behind this garden. I'm interested in
+          photography, poar-Bop jazz, odd thing I observe, and on, an on. I started this space to think out loud,
+          connect ideas, and share what I'm learning and thnking along the way.
         </p>
         <p class="text-ink-light leading-relaxed mt-3">
-          The name "37 Pencils" is [explain the name or leave it mysterious—your call].
+          The name "37 Pencils": Well, sometimes you get an idea, and then it veers of in the most unusual directions. Suppose 				someone hears an anecdote about children in some countries are perhaps "entitled to" 37 pencils. And this, lead to 					ideas about US tariff policy, and this leads to an idea abot changing consumption patterns. You see, that is an idea 				that definitely grew sideways.
         </p>
       </section>
-
+    
       <!-- Why this format -->
       <section>
         <h2 class="text-xl font-medium text-ink mb-3">Why a garden?</h2>
@@ -60,20 +60,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           branch unexpectedly, and occasionally need pruning.
         </p>
       </section>
-
+    
       <!-- Get in touch -->
       <section>
         <h2 class="text-xl font-medium text-ink mb-3">Say hello</h2>
         <p class="text-ink-light leading-relaxed">
           {/* Replace with your actual contact preferences */}
-          The best way to reach me is [email/social/carrier pigeon].
-          I'm always happy to hear from fellow gardeners, or anyone who
-          wants to discuss ideas that show up here.
+          The best way to reach me is - this info coming soon.
+          I'm think I'll be happy to hear from fellow gardeners, or anyone who
+          wants to discuss ideas that show up here. Yet to be determined.
         </p>
         <ul class="mt-4 space-y-2 text-ink-light">
           <li>
             <span class="text-ink-lighter">Email:</span>{' '}
-            <a href="mailto:hello@example.com" class="text-accent hover:underline">
+            <a href="mailto:*****@**********.com" class="text-accent hover:underline">
               hello@example.com
             </a>
           </li>
@@ -88,7 +88,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           */}
         </ul>
       </section>
-
+    
       <!-- Colophon (optional - nerdy details about how it's built) -->
       <section class="pt-8 border-t border-ink/10">
         <h2 class="text-sm font-medium text-ink-lighter uppercase tracking-wide mb-3">

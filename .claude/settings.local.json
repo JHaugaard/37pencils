@@ -20,7 +20,8 @@
       "Bash(timeout 10 npm run dev)",
       "Bash(cat:*)",
       "Bash(timeout 5 npm run:*)",
-      "Bash(lsof:*)"
+      "Bash(lsof:*)",
+      "Bash(git fetch:*)"
     ]
   }
 }
