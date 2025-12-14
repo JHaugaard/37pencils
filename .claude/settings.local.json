@@ -22,7 +22,8 @@
       "Bash(timeout 5 npm run:*)",
       "Bash(lsof:*)",
       "Bash(git fetch:*)",
-      "Bash(mv:*)"
+      "Bash(mv:*)",
+      "Bash(ls:*)"
     ]
   }
 }
