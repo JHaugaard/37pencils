@@ -1,0 +1,90 @@
+{
+  "document_type": "deployment-log",
+  "version": "1.0",
+  "created": "2025-12-13",
+  "project": "37-pencils",
+
+  "rationale": "Landing page deployed to Cloudflare Pages with custom domain. Git-connected for automatic deploys on push to main.",
+
+  "latest_deployment": {
+    "date": "2025-12-13 21:15",
+    "target": "cloudflare-pages",
+    "branch": "main",
+    "commit": "d992bd9",
+    "status": "SUCCESS",
+    "deployed_by": "john"
+  },
+
+  "deployment_target": {
+    "type": "cloudflare-pages",
+    "host": "Cloudflare",
+    "project_name": "37pencils",
+    "url": "https://37-pencils.com",
+    "pages_dev_url": "https://37pencils.pages.dev",
+    "www_url": "https://www.37-pencils.com"
+  },
+
+  "pre_deployment_checks": {
+    "code_committed": true,
+    "build_passed": true,
+    "tests_passed": true,
+    "environment_configured": true
+  },
+
+  "post_deployment_verification": {
+    "application_accessible": true,
+    "no_errors_in_logs": true,
+    "core_functionality_working": true,
+    "ssl_certificate_valid": true
+  },
+
+  "storage": {
+    "type": "none",
+    "notes": "Static site - no storage required"
+  },
+
+  "runbook": {
+    "deploy_command": "git push origin main",
+    "rollback_command": "Cloudflare Dashboard → Pages → 37pencils → Deployments → Select previous → Rollback",
+    "log_command": "Cloudflare Dashboard → Pages → 37pencils → Deployments → View logs",
+    "preview_branches": "Push to any non-main branch for preview URL at [branch].37pencils.pages.dev"
+  },
+
+  "build_settings": {
+    "framework": "Astro",
+    "build_command": "npm run build",
+    "output_directory": "dist",
+    "node_version": "18"
+  },
+
+  "environment_variables": [],
+
+  "deployment_history": [
+    {
+      "date": "2025-12-13",
+      "commit": "d992bd9",
+      "status": "SUCCESS",
+      "notes": "Initial landing page deployment"
+    }
+  ],
+
+  "dns_configuration": {
+    "provider": "Cloudflare",
+    "records": [
+      {"type": "CNAME", "name": "37-pencils.com", "content": "37pencils.pages.dev", "proxied": true},
+      {"type": "CNAME", "name": "www", "content": "37pencils.pages.dev", "proxied": true}
+    ]
+  },
+
+  "workflow_status": {
+    "completed_phases": ["project-brief-writer", "tech-stack-advisor", "deployment-advisor", "project-spinup", "deploy-guide"],
+    "is_termination_point": true,
+    "next_phases": ["ci-cd-implement"]
+  },
+
+  "reminders": [
+    "Cloudflare Pages preview URLs: Push to non-main branch for automatic preview at [branch].37pencils.pages.dev"
+  ],
+
+  "handoff_to": ["ci-cd-implement"]
+}

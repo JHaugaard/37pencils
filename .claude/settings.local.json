@@ -7,7 +7,14 @@
       "Bash(docker mcp:*)",
       "Skill(tech-stack-advisor)",
       "Skill(deployment-advisor)",
-      "Skill(project-spinup)"
+      "Skill(project-spinup)",
+      "Bash(curl:*)",
+      "Skill(deploy-guide)",
+      "Bash(npm run build:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git rev-parse:*)"
     ]
   }
 }
