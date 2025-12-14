@@ -38,11 +38,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <p class="text-ink-light leading-relaxed">
           {/* Replace this placeholder with your own intro */}
           Hi, I'm John Haugaard, the person behind this garden. I'm interested in
-          photography, poar-Bop jazz, odd thing I observe, and on, an on. I started this space to think out loud,
-          connect ideas, and share what I'm learning and thnking along the way.
+          photography, post-Bop jazz, odd thing I observe, and on, an on. I started this space to think out loud,
+          connect ideas, and share what I'm learning and thinking along the way.
         </p>
         <p class="text-ink-light leading-relaxed mt-3">
-          The name "37 Pencils": Well, sometimes you get an idea, and then it veers of in the most unusual directions. Suppose 				someone hears an anecdote about children in some countries are perhaps "entitled to" 37 pencils. And this, lead to 					ideas about US tariff policy, and this leads to an idea abot changing consumption patterns. You see, that is an idea 				that definitely grew sideways.
+          The name "37 Pencils": Well, sometimes you get an idea, and then it veers off in the most unusual directions. Suppose someone hears an anecdote about children in some countries being "entitled to" 37 pencils. And this leads to ideas about US tariff policy, and this leads to an idea about changing consumption patterns. You see, that is an idea 				that definitely grew sideways.
         </p>
       </section>
     
