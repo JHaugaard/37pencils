@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="37 Pencils">
+  <main class="min-h-screen flex flex-col">
+    <!-- Hero section - centered vertically -->
+    <div class="flex-1 flex items-center justify-center px-6">
+      <div class="max-w-prose-wide text-center">
+        <!-- Site title with subtle character -->
+        <h1 class="text-4xl sm:text-5xl font-semibold tracking-tight text-ink mb-4">
+          37 Pencils
+        </h1>
+
+        <!-- Tagline -->
+        <p class="text-xl sm:text-2xl text-ink-light font-normal mb-8">
+          Where ideas grow sideways.
+        </p>
+
+        <!-- Brief intro -->
+        <p class="text-base text-ink-lighter max-w-prose mx-auto leading-relaxed">
+          A digital garden of interconnected thoughts, observations, and curiosities.
+          Not a blog. Ideas here exist in various stages of done.
+        </p>
+
+        <!-- Placeholder for future navigation -->
+        <nav class="mt-12 flex items-center justify-center gap-8 text-sm">
+          <span class="text-ink-lighter">Posts coming soon</span>
+          <span class="text-ink-lighter/50">|</span>
+          <span class="text-ink-lighter">About coming soon</span>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Subtle footer -->
+    <footer class="py-8 text-center">
+      <p class="text-xs text-ink-lighter">
+        Tended with care
+      </p>
+    </footer>
+  </main>
+</BaseLayout>
