@@ -70,7 +70,7 @@ export async function buildBacklinksMap(): Promise<BacklinksMap> {
   const posts = await getCollection('posts');
 
   for (const post of posts) {
-    const sourceSlug = post.id.replace('.mdx', '');
+    const sourceSlug = post.id.replace(/\.mdx?$/, '');
     const sourceInfo: BacklinkInfo = {
       slug: sourceSlug,
       title: post.data.title,
@@ -122,5 +122,5 @@ export async function getBacklinksForSlug(slug: string): Promise<BacklinkInfo[]>
  */
 export async function getAllPostSlugs(): Promise<string[]> {
   const posts = await getCollection('posts');
-  return posts.map((post) => post.id.replace('.mdx', ''));
+  return posts.map((post) => post.id.replace(/\.mdx?$/, ''));
 }

@@ -18,7 +18,7 @@ import { glob } from 'astro/loaders';
  * - draft: Controls visibility. Drafts show in dev, hidden in production.
  */
 const posts = defineCollection({
-  loader: glob({ pattern: '**/*.mdx', base: './src/content/posts' }),
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/posts' }),
   schema: z.object({
     title: z.string(),
     description: z.string(),

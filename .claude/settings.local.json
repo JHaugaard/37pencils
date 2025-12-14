@@ -23,7 +23,8 @@
       "Bash(lsof:*)",
       "Bash(git fetch:*)",
       "Bash(mv:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(pkill:*)"
     ]
   }
 }

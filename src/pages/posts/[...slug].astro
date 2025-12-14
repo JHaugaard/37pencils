@@ -31,7 +31,7 @@ export async function getStaticPaths() {
 
   return posts.map((post) => {
     // The id includes the file extension, so we strip it for the URL
-    const slug = post.id.replace('.mdx', '');
+    const slug = post.id.replace(/\.mdx?$/, '');
 
     // Get backlinks for this specific post
     const backlinks = backlinksMap.get(slug) || [];
