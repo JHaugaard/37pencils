@@ -1,11 +1,11 @@
+```yaml
 ---
-title: "New Post Tryout"
-description: "Working on some editing options"
+title: "Post Title Here"
+description: "A sentence or two describing the post"
 pubDate: 2024-12-14
+updatedDate: 2024-12-15
 status: "seedling"
-tags: ["meta", "process"]
-draft: false
+tags: ["topic", "another-topic"]
+draft: true
 ---
-This is created using GitHub.dev in the browser.
-In order to use this I will need to know the markup tags.
-Another edit to force deploy.
+```
